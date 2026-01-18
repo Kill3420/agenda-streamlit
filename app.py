@@ -13,8 +13,8 @@ st.title("📱 Agenda Multifunción")
 # ---------------- DB MYSQL ----------------
 conn = mysql.connector.connect(
     host="localhost",
-    user="root",              # CAMBIA SI TU USUARIO ES OTRO
-    password="6234", # CAMBIA ESTO
+    user="root",
+    password="6234",
     database="agenda_db"
 )
 c = conn.cursor()
@@ -63,7 +63,7 @@ if menu == "📝 Agenda":
         col1, col2 = st.columns([1, 3])
 
         with col1:
-            if r[3]:
+            if r[3] and os.path.exists(r[3]):
                 st.image(r[3], width=120)
             else:
                 st.text("Sin foto")
@@ -75,10 +75,10 @@ if menu == "📝 Agenda":
             if st.button("🗑️ Borrar", key=f"del_{r[0]}"):
                 c.execute("DELETE FROM agenda WHERE id=%s", (r[0],))
                 conn.commit()
-                st.experimental_rerun()
+                st.success("Registro eliminado")
+                st.rerun()
 
         st.divider()
-
 
 # ==================================================
 # ⏰ RELOJ
